@@ -52,7 +52,6 @@
 
 using System;
 using System.Drawing;
-using System.Runtime.Remoting.Messaging;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Windows.Forms.VisualStyles;
@@ -60,7 +59,8 @@ using System.Drawing.Drawing2D;
 using BrightIdeasSoftware.Properties;
 using System.Security.Permissions;
 
-namespace BrightIdeasSoftware {
+namespace BrightIdeasSoftware
+{
 
     /// <summary>
     /// Class used to capture window messages for the header of the list view
