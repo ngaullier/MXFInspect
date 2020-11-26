@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Myriadbits.MXF;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -25,7 +26,7 @@ namespace MXFInspect
 		/// <param name="e"></param>
 		private void Main_Load(object sender, EventArgs e)
 		{
-			this.txtPath.Text = Properties.Settings.Default.Filename;
+			this.txtPath.Text = Myriadbits.MXFInspect.Properties.Settings.Default.Filename;
 		}
 
 		/// <summary>
@@ -43,9 +44,9 @@ namespace MXFInspect
 			{
 				// Set the filename
 				txtPath.Text = openFileDialog.FileName;
-					
-				Properties.Settings.Default.Filename = this.txtPath.Text;
-				Properties.Settings.Default.Save(); // Store last filename
+
+                Myriadbits.MXFInspect.Properties.Settings.Default.Filename = this.txtPath.Text;
+                Myriadbits.MXFInspect.Properties.Settings.Default.Save(); // Store last filename
 			}
 		}
 
