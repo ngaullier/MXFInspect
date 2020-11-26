@@ -277,6 +277,7 @@
             // tsbOpen
             // 
             this.tsbOpen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbOpen.Image = ((System.Drawing.Image)(resources.GetObject("tsbOpen.Image")));
             this.tsbOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbOpen.Name = "tsbOpen";
             this.tsbOpen.Size = new System.Drawing.Size(23, 22);
@@ -306,6 +307,7 @@
             // tsbFindNext
             // 
             this.tsbFindNext.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbFindNext.Image = ((System.Drawing.Image)(resources.GetObject("tsbFindNext.Image")));
             this.tsbFindNext.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbFindNext.Name = "tsbFindNext";
             this.tsbFindNext.Size = new System.Drawing.Size(23, 22);
@@ -315,6 +317,7 @@
             // tsbFindPrevious
             // 
             this.tsbFindPrevious.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbFindPrevious.Image = ((System.Drawing.Image)(resources.GetObject("tsbFindPrevious.Image")));
             this.tsbFindPrevious.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbFindPrevious.Name = "tsbFindPrevious";
             this.tsbFindPrevious.Size = new System.Drawing.Size(23, 22);
@@ -324,6 +327,7 @@
             // tsbFilterCurrent
             // 
             this.tsbFilterCurrent.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbFilterCurrent.Image = ((System.Drawing.Image)(resources.GetObject("tsbFilterCurrent.Image")));
             this.tsbFilterCurrent.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbFilterCurrent.Name = "tsbFilterCurrent";
             this.tsbFilterCurrent.Size = new System.Drawing.Size(23, 22);
@@ -338,6 +342,7 @@
             // tsbShowFillers
             // 
             this.tsbShowFillers.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbShowFillers.Image = ((System.Drawing.Image)(resources.GetObject("tsbShowFillers.Image")));
             this.tsbShowFillers.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbShowFillers.Name = "tsbShowFillers";
             this.tsbShowFillers.Size = new System.Drawing.Size(23, 22);
@@ -346,14 +351,12 @@
             // 
             // tabMain
             // 
-            this.tabMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabMain.Location = new System.Drawing.Point(0, 57);
+            this.tabMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabMain.Location = new System.Drawing.Point(0, 49);
             this.tabMain.Margin = new System.Windows.Forms.Padding(0);
             this.tabMain.Name = "tabMain";
             this.tabMain.SelectedIndex = 0;
-            this.tabMain.Size = new System.Drawing.Size(1560, 676);
+            this.tabMain.Size = new System.Drawing.Size(1370, 678);
             this.tabMain.TabIndex = 18;
             this.tabMain.Visible = false;
             this.tabMain.SelectedIndexChanged += new System.EventHandler(this.tabMain_SelectedIndexChanged);
