@@ -47,7 +47,7 @@ namespace Myriadbits.MXFInspect
 		{
 			// Initialize the MRU
 			this.m_mru = Properties.Settings.Default.MRU;
-			FillMRU();
+			//FillMRU();
 			this.UpdateMenu();
 		}
 
@@ -64,63 +64,63 @@ namespace Myriadbits.MXFInspect
 		/// <summary>
 		/// Initialize/fill the MRU
 		/// </summary>
-		protected void FillMRU()
-		{
-			// Start by clearing all menu items we added 
-			for (int n = this.menuFile.DropDownItems.Count - 1; n >= 0; n-- )
-			{
-				ToolStripItem tsdi = this.menuFile.DropDownItems[n];
-				if (tsdi.Tag != null)
-					this.menuFile.DropDownItems.Remove(tsdi);
-			}
+		//protected void FillMRU()
+		//{
+		//	// Start by clearing all menu items we added 
+		//	for (int n = this.menuFile.DropDownItems.Count - 1; n >= 0; n-- )
+		//	{
+		//		ToolStripItem tsdi = this.menuFile.DropDownItems[n];
+		//		if (tsdi.Tag != null)
+		//			this.menuFile.DropDownItems.Remove(tsdi);
+		//	}
 
-			if (this.m_mru != null)
-			{
-				int startIndex = this.menuFile.DropDownItems.Count - 1; // Start just before the exit
-				if (m_mru.Count > 0)
-				{
-					ToolStripSeparator tsms = new ToolStripSeparator();
-					tsms.Tag = -1; // Set the tag so it will be removed
-					this.menuFile.DropDownItems.Insert(startIndex, tsms);
-					for (int n = 0; n < m_mru.Count; n++)
-					{
-						ToolStripMenuItem tsmi = new ToolStripMenuItem(string.Format("&{0} {1}", n + 1, m_mru[n]));
-						if (n < 9)
-						{
-							// Only show the key, when there is a key (0-9)
-							Keys key = (Keys)((49 + n) + Keys.Alt);
-							tsmi.ShortcutKeys = key;
-							tsmi.ShowShortcutKeys = true;
-						}
-						tsmi.Click += menuOpenRecentFile_Click;
-						tsmi.Tag = m_mru[n];
-						this.menuFile.DropDownItems.Insert(startIndex, tsmi);
-						startIndex++;
-					}
-				}
-			}
-		}
+		//	if (this.m_mru != null)
+		//	{
+		//		int startIndex = this.menuFile.DropDownItems.Count - 1; // Start just before the exit
+		//		if (m_mru.Count > 0)
+		//		{
+		//			ToolStripSeparator tsms = new ToolStripSeparator();
+		//			tsms.Tag = -1; // Set the tag so it will be removed
+		//			this.menuFile.DropDownItems.Insert(startIndex, tsms);
+		//			for (int n = 0; n < m_mru.Count; n++)
+		//			{
+		//				ToolStripMenuItem tsmi = new ToolStripMenuItem(string.Format("&{0} {1}", n + 1, m_mru[n]));
+		//				if (n < 9)
+		//				{
+		//					// Only show the key, when there is a key (0-9)
+		//					Keys key = (Keys)((49 + n) + Keys.Alt);
+		//					tsmi.ShortcutKeys = key;
+		//					tsmi.ShowShortcutKeys = true;
+		//				}
+		//				tsmi.Click += menuOpenRecentFile_Click;
+		//				tsmi.Tag = m_mru[n];
+		//				this.menuFile.DropDownItems.Insert(startIndex, tsmi);
+		//				startIndex++;
+		//			}
+		//		}
+		//	}
+		//}
 
-		/// <summary>
-		/// Add a new name to the MRU
-		/// </summary>
-		protected void AddFileToMRU(string fileName)
-		{
-			if (this.m_mru == null)
-				this.m_mru = new StringCollection();
-			// Remove all same filenames
-			this.m_mru.Remove(fileName);
+		///// <summary>
+		///// Add a new name to the MRU
+		///// </summary>
+		//protected void AddFileToMRU(string fileName)
+		//{
+		//	if (this.m_mru == null)
+		//		this.m_mru = new StringCollection();
+		//	// Remove all same filenames
+		//	this.m_mru.Remove(fileName);
 
-			// Insert the new one
-			this.m_mru.Insert(0, fileName);
+		//	// Insert the new one
+		//	this.m_mru.Insert(0, fileName);
 
-			// If too many, remove the oldest
-			if (this.m_mru.Count > m_maxMRU)
-				this.m_mru.RemoveAt(m_maxMRU);
-			MXFInspect.Properties.Settings.Default.MRU = this.m_mru;
-			MXFInspect.Properties.Settings.Default.Save();
-			FillMRU();
-		}
+		//	// If too many, remove the oldest
+		//	if (this.m_mru.Count > m_maxMRU)
+		//		this.m_mru.RemoveAt(m_maxMRU);
+		//	MXFInspect.Properties.Settings.Default.MRU = this.m_mru;
+		//	MXFInspect.Properties.Settings.Default.Save();
+		//	FillMRU();
+		//}
 
 
 		/// <summary>
@@ -164,7 +164,7 @@ namespace Myriadbits.MXFInspect
 		private void OpenFile(string fileName)
 		{
 			// Update the MRU
-			AddFileToMRU(fileName);
+			//AddFileToMRU(fileName);
 
 			MXFView newView = new MXFView(fileName);
 			newView.MdiParent = this;
