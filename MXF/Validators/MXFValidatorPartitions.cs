@@ -72,7 +72,7 @@ namespace Myriadbits.MXF
 			long footerExpected = 0;
 			if (footer == null)
 			{
-				valResult.SetWarning(string.Format("Error! No footer partition present!"));
+				valResult.SetError(string.Format("Error! No footer partition present!"));
 				footerExpected = 0;
 			}
 			else

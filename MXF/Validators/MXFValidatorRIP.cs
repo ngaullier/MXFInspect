@@ -43,7 +43,7 @@ namespace Myriadbits.MXF
 
 			if (this.File.RIP == null)
 			{
-				valResult.SetError(string.Format("Error! No RIP found."));
+				valResult.SetWarning(string.Format("Error! No RIP found."));
 				return;
 			}
 

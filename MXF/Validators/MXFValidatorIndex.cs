@@ -293,7 +293,7 @@ namespace Myriadbits.MXF
 						{
 							if (!items[n].UserDate.IsSame(ts))
 							{
-								valResult.SetError(string.Format("Invalid user date at offset {0} (was {1}, expected {2})!", items[n].Offset, items[n].UserDate, ts));
+								valResult.SetWarning(string.Format("Invalid user date at offset {0} (was {1}, expected {2})!", items[n].Offset, items[n].UserDate, ts));
 								return;
 							}
 							tsLast = items[n].UserDate;
@@ -316,7 +316,6 @@ namespace Myriadbits.MXF
 		protected void CheckContinuityCounter(MXFFile file, List<MXFValidationResult> results)
 		{
 			MXFValidationResult valResult = new MXFValidationResult("System Items");
-			results.Add(valResult); // And directly add the results
 			
 			// Check for continous range
 			int cc = -1;
@@ -335,14 +334,11 @@ namespace Myriadbits.MXF
 			if (errorCount > 0)
 			{
 				if (errorCount >= this.m_systemItems.Count() - 1)
-					valResult.SetWarning(string.Format("All continuity counter values are not set!"));
+					valResult.SetInfo(string.Format("All continuity counter values are not set!"));
 				else
-					valResult.SetError(string.Format("Found {0} invalid continuity counter values (total system items {1})!", errorCount, this.m_systemItems.Count()));
+					valResult.SetInfo(string.Format("Found {0} invalid continuity counter values (total system items {1})!", errorCount, this.m_systemItems.Count()));
+				results.Add(valResult);
 			}
-			else
-			{
-				valResult.SetSuccess(string.Format("Continuity counter values are correct!"));
-			}			
 		}
 
 
