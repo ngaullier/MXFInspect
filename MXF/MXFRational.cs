@@ -40,7 +40,7 @@ namespace Myriadbits.MXF
 
 		public override string ToString()
 		{
-			return string.Format("{0:.00} ({1}/{2})", this.Value, this.Num, this.Den);
+			return string.Format("{0}/{1}", this.Num, this.Den);
 		}
 	}
 }

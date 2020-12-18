@@ -54,7 +54,7 @@ namespace Myriadbits.MXF
 			for (int n = 0; n < this.Data.Length; n++)
 			{
 				if (n > 0)
-					sb.Append(", ");
+					sb.Append(".");
 				sb.Append(string.Format("{0:X02}", this.Data[n]));
 			}
 			this.DataString = sb.ToString();

@@ -253,7 +253,7 @@ namespace Myriadbits.MXF
 			}
 
 			if (this.Day != 0)
-				time = string.Format("{0}-{1:00}-{2:00} {3}", this.Year, this.Month, this.Day, time);
+				time = string.Format("{0}/{1:00}/{2:00} {3}", this.Year, this.Month, this.Day, time);
 			return time;
 		}
 
