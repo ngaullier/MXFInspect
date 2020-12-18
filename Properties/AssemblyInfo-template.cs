@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("MXF Library")]
-[assembly: AssemblyDescription("MXF .NET Library")]
+[assembly: AssemblyTitle("MXFInspect")]
+[assembly: AssemblyDescription("Material eXchange Format Inspect Application")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Myriadbits")]
-[assembly: AssemblyProduct("MXF Library")]
-[assembly: AssemblyCopyright("Copyright © 2015 by Myriadbits.com")]
+[assembly: AssemblyCompany("Myriadbits, modified by CJI")]
+[assembly: AssemblyProduct("MXFInspect v{GITVersion}/{GITHash}/{GITWorkStatus}")]
+[assembly: AssemblyCopyright("Copyright ©  2015 by Myriadbits.com, modified by Nicolas Gaullier @CJI 2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("1e6dcc32-4e6f-40c3-9220-fb229ad2c798")]
+[assembly: Guid("ccbbfb55-a4e6-4083-83cd-a4a597278bdb")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("2.2.0.4")]
-[assembly: AssemblyFileVersion("2.2.0.4")]
+[assembly: AssemblyVersion("{GITVersion}")]
+[assembly: AssemblyFileVersion("{GITVersion}")]

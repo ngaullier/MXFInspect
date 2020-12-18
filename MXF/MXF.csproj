@@ -119,6 +119,7 @@
     <Compile Include="MXFTimeStamp.cs" />
     <Compile Include="MXFUMIDKey.cs" />
     <Compile Include="MXFValidationResult.cs" />
+    <Content Include="Properties\AssemblyInfo-template.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -152,6 +153,9 @@
     <None Include="SMPTE\Elements.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>CALL "$(SolutionDir)gitversion2msvc.bat" "$(ProjectDir)\Properties"</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

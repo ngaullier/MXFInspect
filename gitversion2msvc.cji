@@ -1,0 +1,19 @@
+rem GIT describe
+SYS STDOUT2ENV git describe --dirty --tags
+
+rem Parse to GITVersion/GITHash/GITWorkStatus
+ENV SET GITWorkStatus=[]
+IF contains([{RedirectStdOut}],[-dirty]) ENV SET GITWorkStatus=[dirty]
+IF contains([{RedirectStdOut}],[-dirty]) ENV SET RedirectStdOut=subbefore([{RedirectStdOut}],[-dirty])
+ENV SET GITHash=subafter([{RedirectStdOut}],[-])
+IF  contains([{RedirectStdOut}],[-]) ENV SET GITVersion=subafter(subbefore([{RedirectStdOut}],[-]),v)
+IF !contains([{RedirectStdOut}],[-]) ENV SET GITVersion=subafter([{RedirectStdOut}],v)
+
+rem FileIO/Replace
+BUILD        /NEW
+INSERTFILE   /NEW "AssemblyInfo-template.cs"
+BUILD        /OLD
+IFFILEEXISTS "AssemblyInfo.cs" INSERTFILE   /OLD "AssemblyInfo.cs"
+ENV SETLOCAL isNewVersion=md5(expand(xpath(NEW)),ASCII)!=md5(xpath(OLD),ASCII)
+IF {isNewVersion} SAVEFILE /NEW "AssemblyInfo.cs" UTF-8
+IF {isNewVersion} [AssemblyInfo updated to {GITVersion}/{GITHash}/{GITWorkStatus}]
