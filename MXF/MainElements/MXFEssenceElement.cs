@@ -44,8 +44,8 @@ namespace Myriadbits.MXF
 		{
 			get
 			{
-				if (this.Partition == null) return this.Offset; // Unknown
-				if (this.Partition.FirstPictureEssenceElement == null) return this.Offset; // Unknown
+				if (this.Partition == null) return -1; // Unknown
+				if (this.Partition.FirstPictureEssenceElement == null) return -1; // Unknown
 				return (this.Offset - this.Partition.FirstPictureEssenceElement.Offset) + ((long)this.Partition.BodyOffset);
 			}
 		}
