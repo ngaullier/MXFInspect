@@ -126,6 +126,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Validators\MXFPatchIndexCloseFirstGOP.cs" />
     <Compile Include="Validators\MXFValidator.cs" />
     <Compile Include="Validators\MXFValidatorIndex.cs" />
     <Compile Include="Validators\MXFValidatorInfo.cs" />
