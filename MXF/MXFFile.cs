@@ -168,9 +168,6 @@ namespace Myriadbits.MXF
 			Debug.WriteLine("Logical tree created in {0} ms", sw.ElapsedMilliseconds);
 			sw.Restart();
 			
-			// And Execute ALL test
-			this.ExecuteValidationTest(worker, true);
-
 			// Finished
 			worker.ReportProgress(100, "Finished");
 		}
@@ -319,9 +316,6 @@ namespace Myriadbits.MXF
 			CreateLogicalTree();
 			Debug.WriteLine("Logical tree created in {0} ms", sw.ElapsedMilliseconds);
 			sw.Restart();
-
-			// And Execute FAST tests
-			this.ExecuteValidationTest(worker, false);
 
 			// Finished
 			worker.ReportProgress(100, "Finished");
