@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Xml.Linq;
 
 namespace Myriadbits.MXF
 {
@@ -221,6 +222,17 @@ namespace Myriadbits.MXF
 			if (this.Children == null)
 				return this.Offset.ToString();
 			return string.Format("{0} [{1} items]", this.Offset, this.Children.Count);
+		}
+
+		public virtual XElement ToXML(bool detailed = true)
+		{
+			if (this is MXFSystemItem)
+				return ((MXFSystemItem)this).ToXML();
+			else if (this is MXFEssenceElement)
+				return ((MXFEssenceElement)this).ToXML();
+			else if (this is MXFIndexTableSegment)
+				return ((MXFIndexTableSegment)this).ToXML();
+			else return null;
 		}
 
 

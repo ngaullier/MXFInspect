@@ -22,6 +22,7 @@
 using System;
 using System.ComponentModel;
 using System.Text;
+using System.Xml.Linq;
 
 namespace Myriadbits.MXF
 {
@@ -67,6 +68,14 @@ namespace Myriadbits.MXF
 		public override string ToString()
 		{
 			return string.Format("{0} [len {1}]", this.Name, this.Size);
+		}
+
+		public override XElement ToXML(bool detailed = true)
+		{
+			if (this.DataString.Contains("<")||this.DataString.Contains(">")||this.DataString.Contains("&"))
+				return new XElement(this.Name.Replace(" ", String.Empty), new XCData(this.DataString));
+			else
+				return new XElement(this.Name.Replace(" ", String.Empty), this.DataString);
 		}
 	}
 }

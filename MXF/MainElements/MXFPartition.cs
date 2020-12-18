@@ -22,6 +22,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Xml.Linq;
 
 namespace Myriadbits.MXF
 {
@@ -144,6 +145,62 @@ namespace Myriadbits.MXF
 			return string.Format("{0} Partition", Enum.GetName(typeof(PartitionType), this.PartitionType));
 		}
 
+		public XElement IndexToXML(bool detailed = true, bool full = true)
+		{
+			if ((this.IndexSID == 0) || (this.ChildCount <= 0))
+				return null;
+			XElement ret = new XElement("IndexTables");
+			bool dumpIndexStarted = false;
+			foreach (MXFObject Child in this.Children)
+			{
+				if (Child is MXFIndexTableSegment)
+				{
+					ret.Add(((MXFIndexTableSegment)Child).ToXML(detailed, full));
+					dumpIndexStarted = true;
+				}
+				else if (dumpIndexStarted)
+					break;
+			}
+			return ret;
+		}
+
+		public override XElement ToXML(bool detailed = true)
+		{
+			XElement partition = new XElement("Partition",
+				new XAttribute("type", Enum.GetName(typeof(PartitionType), this.PartitionType)),
+				new XAttribute("bodySID", this.BodySID),
+				new XAttribute("closed", this.Closed ? "YES" : "NO"),
+				new XAttribute("complete", this.Complete ? "YES" : "NO"),
+				new XAttribute("indexSID", this.IndexSID),
+				new XAttribute("KAG", this.KagSize),
+				new XAttribute("offset", this.Offset)
+				);
+			if (this.Children != null)
+			{
+				if (this.IndexSID != 0)
+				{
+					partition.Add(IndexToXML(detailed, false));
+				}
+				if (this.BodySID != 0)
+				{
+					XElement body = new XElement("Body");
+					int StandardBODYDumpCount = 2;
+					int EditUnitDumpCount = 0;
+					for (int i = 0; i < this.Children.Count && i < 100 && EditUnitDumpCount <= StandardBODYDumpCount; i++)
+						if ((this.Children[i].Type == MXFObjectType.SystemItem)
+							|| (this.Children[i].Type == MXFObjectType.Essence))
+						{
+							if (this.Children[i] is MXFSystemItem)
+								EditUnitDumpCount++;
+							XElement elt = this.Children[i].ToXML();
+							if (elt != null)
+								body.Add(elt);
+						}
+					partition.Add(body);
+				}
+			}
+			return partition;
+		}
 
 		/// <summary>
 		/// Load the entire partition from disk (when not yet loaded)

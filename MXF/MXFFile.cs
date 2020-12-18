@@ -26,6 +26,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Xml.Linq;
 
 namespace Myriadbits.MXF
 {
@@ -50,7 +51,8 @@ namespace Myriadbits.MXF
 	/// </summary>
 	public class MXFFile : MXFObject
 	{
-		private MXFReader m_reader;
+        private FileParseOptions m_options;
+        private MXFReader m_reader;
 		private List<MXFValidationResult> m_results;
 
 		public string Filename { get; set; }
@@ -74,6 +76,7 @@ namespace Myriadbits.MXF
 		/// <param name="fileName"></param>
 		public MXFFile(string fileName, BackgroundWorker worker, FileParseOptions options = FileParseOptions.Normal)
 		{
+            this.m_options = options;
 			this.Filename = fileName;
 			this.Partitions = new List<MXFPartition>();
 			this.m_results = new List<MXFValidationResult>();
@@ -715,5 +718,32 @@ namespace Myriadbits.MXF
 			}
 		}
 
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendFormat("{0} partitions", this.PartitionCount);
+            if (this.RIP == null)
+                sb.Append("\r\nno RIP");
+            return sb.ToString();
+        }
+
+        public override XElement ToXML(bool detailed = true)
+        {
+            XElement ret=new XElement("MXF");
+            if (this.Partitions != null)
+            {
+                XElement partitions=new XElement("Partitions");
+                foreach (MXFPartition p in this.Partitions)
+                    partitions.Add(p.ToXML());
+                ret.Add(partitions);
+            }
+            if (this.RIP != null)
+            {
+                ret.Add(this.RIP.ToXML(false));
+            }
+            if ((m_options == FileParseOptions.Normal) && (this.LastSystemItem!= null))
+                ret.Add(this.LastSystemItem.ToXML(false));
+            return ret;
+        }
 	}
 }

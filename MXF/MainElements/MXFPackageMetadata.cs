@@ -21,6 +21,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Xml.Linq;
 
 namespace Myriadbits.MXF
 {	
@@ -86,6 +87,14 @@ namespace Myriadbits.MXF
 		public override string ToString()
 		{
 			return string.Format("Package Metadata [len {0}]", this.Length);
+		}
+		public override XElement ToXML(bool detailed = true)
+		{
+			XElement ret = new XElement("PackageMetadata", new XAttribute("offset", this.Offset));
+			if (this.Children != null)
+				foreach (MXFObject child in this.Children)
+					ret.Add(child.ToXML());
+			return ret;
 		}
 	}
 }

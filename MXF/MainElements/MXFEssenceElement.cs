@@ -21,6 +21,7 @@
 
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Xml.Linq;
 
 namespace Myriadbits.MXF
 {	
@@ -85,6 +86,19 @@ namespace Myriadbits.MXF
 		public override string ToString()
 		{
 			return string.Format("{0} Essence [len {1}]", this.ItemType, this.Length);
+		}
+
+		public override XElement ToXML(bool detailed = true)
+		{
+			XElement ret = new XElement("EssenceElt",
+				new XAttribute("itemType", this.ItemType),
+				new XAttribute("type", this.ElementType),
+				new XAttribute("count", this.ElementCount),
+				new XAttribute("nr", this.ElementNumber),
+				new XAttribute("dataoffset", this.DataOffset)
+				);
+
+			return ret;
 		}
 	}
 }

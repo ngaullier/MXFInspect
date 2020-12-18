@@ -22,6 +22,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Xml.Linq;
 
 namespace Myriadbits.MXF
 {
@@ -133,5 +134,32 @@ namespace Myriadbits.MXF
 		{
 			return string.Format("Index Table Segment [{0}], BodySID {1}", this.IndexSID, this.BodySID);
 		}
+
+        public XElement ToXML(bool detailed = true, bool full = false)
+        {
+            XElement ret = new XElement("IndexTable",
+                new XAttribute("sid", this.IndexSID),
+                new XAttribute("bodySID", this.BodySID),
+                new XAttribute("startpos", this.IndexStartPosition),
+                new XAttribute("duration", this.IndexDuration),
+                new XAttribute("editrate", this.IndexEditRate),
+                new XAttribute("offset", this.Offset));
+            if (this.PosTableCount.HasValue)
+                ret.Add(new XAttribute("postablecount", this.PosTableCount));
+            if (this.IndexEntries != null)
+            {
+                XElement entries = new XElement("Entries");
+                int StandardINDEXDumpCount = 20;
+                for (int i = 0; i < this.IndexEntries.Count && (full || i < StandardINDEXDumpCount); i++)
+                    entries.Add(this.IndexEntries[i].ToXML(detailed));
+                ret.Add(entries);
+            }
+            return ret;
+        }
+
+        public override XElement ToXML(bool detailed = true)
+        {
+            return ToXML(detailed, false);
+        }
 	}
 }

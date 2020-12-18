@@ -22,6 +22,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Xml.Linq;
 
 namespace Myriadbits.MXF
 {
@@ -157,5 +158,27 @@ namespace Myriadbits.MXF
 		{
 			return string.Format("{0}, Count {1} [{2}]", this.Key.Name, this.ContinuityCount, this.UserDateFullFrameNb);
 		}		
+
+		public override XElement ToXML(bool detailed=true)
+		{
+			XElement ret = new XElement("SystemItem",
+				new XAttribute("rate", this.PackageRate)
+				);
+			if (detailed)
+			{
+				if ((this.SystemBitmap & MXF.SystemBitmap.CreationDateTime) != 0)
+					ret.Add(new XElement("CreationDate", this.CreationDate));
+				XElement bitmap = new XElement("Bitmap");
+				foreach (SystemBitmap v in Enum.GetValues(typeof(SystemBitmap)))
+					if ((v & this.SystemBitmap) != 0)
+						bitmap.Add(new XElement(v.ToString()));
+				ret.Add(bitmap);
+				if (this.StreamStatus != SystemStreamStatus.Undefined)
+					ret.Add(new XElement("StreamStatus", this.StreamStatus));
+			}
+			if ((this.SystemBitmap & MXF.SystemBitmap.UserDateTime) != 0)
+				ret.Add(new XElement("UserDate", this.UserDateFullFrameNb));
+			return ret;
+		}
 	}
 }

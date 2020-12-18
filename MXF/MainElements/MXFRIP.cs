@@ -20,6 +20,7 @@
 //
 
 
+using System.Xml.Linq;
 namespace Myriadbits.MXF
 {	
 	public class MXFRIP : MXFKLV
@@ -50,6 +51,20 @@ namespace Myriadbits.MXF
 			if (this.Children == null)
 				return string.Format("RIP [0 items]");
 			return string.Format("RIP [{0} items]", this.Children.Count);
+		}
+
+		public override XElement ToXML(bool detailed=false)
+		{
+			XElement ret = new XElement("RIP");
+			if (detailed)
+			{
+				foreach (MXFObject ripentry in this.Children)
+					ret.Add(new XElement("Partition",
+						new XAttribute("offset", ((MXFEntryRIP)ripentry).PartitionOffset),
+						new XAttribute("bodySID", ((MXFEntryRIP)ripentry).BodySID)
+						));
+			}
+			return ret;
 		}
 
 		public MXFEntryRIP GetPartition(int partitionIndex)

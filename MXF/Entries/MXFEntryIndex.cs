@@ -21,6 +21,8 @@
 
 using System;
 using System.ComponentModel;
+using System.Text;
+using System.Xml.Linq;
 
 namespace Myriadbits.MXF
 {
@@ -77,5 +79,45 @@ namespace Myriadbits.MXF
 			return string.Format("Index[{0}] - TemporalOffset {1}, KeyFrameOffset {2}, Offset {3}", this.Index, this.TemporalOffset, this.KeyFrameOffset, this.StreamOffset);
 		}
 
+		public string FlagsAsString()
+		{
+			StringBuilder sb = new StringBuilder();
+			bool isKeyFrameOffsetOutOfRange = (this.Flags & (1 << 3)) != 0;
+			if ((this.Flags & 0x80) != 0)
+				sb.Append("R");
+			if ((this.Flags & 0x40) != 0)
+				sb.Append("S");
+			if ((this.Flags & 0x20) != 0)
+				sb.Append("F");
+			if ((this.Flags & 0x10) != 0)
+				sb.Append("B");
+			if (isKeyFrameOffsetOutOfRange)
+				sb.Append("-KFHS");
+			if ((this.Flags & 0x04) != 0)
+				sb.Append("?");
+			if ((this.Flags & 0x03) == 0x02)
+				sb.Append("[P]");
+			else if ((this.Flags & 0x03) == 0x03)
+				sb.Append("[B]");
+			else if ((this.Flags & 0x03) == 0x01)
+				sb.Append("[?]");
+			return sb.ToString();
+		}
+
+		public override XElement ToXML(bool detailed = false)
+		{
+			XElement ret = new XElement("Index",
+					new XAttribute("streamoffset", this.StreamOffset)
+					);
+			if (detailed)
+				ret.Add(
+					new XAttribute("flags", String.Format("{0:X2}",this.Flags)),
+					new XAttribute("flagsdesc", FlagsAsString()),
+					new XAttribute("keyframe", this.KeyFrameOffset),
+					new XAttribute("temporal", this.TemporalOffset),
+					new XAttribute("offset", this.Offset)
+					);
+			return ret;
+		}
 	}
 }
