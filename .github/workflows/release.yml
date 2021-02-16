@@ -4,13 +4,13 @@ on:
 
 jobs:
   createrelease:
-    name: createrelease
+    name: Create a github release
     runs-on: [windows-latest]
     steps:
       - name: Check out code
         uses: actions/checkout@v1
       
-      - name: create release
+      - name: Create github release
         id: create_release
         uses: actions/create-release@v1
         env:
@@ -21,10 +21,10 @@ jobs:
           draft: false
           prerelease: false
       
-      - name: Output Release URL File
+      - name: Output release URL File
         run: echo "${{ steps.create_release.outputs.upload_url }}" > release_url.txt
       
-      - name: Save Release URL File for publish
+      - name: Save release URL File for publish
         uses: actions/upload-artifact@v1
         with:
           name: release_url
@@ -32,12 +32,14 @@ jobs:
 
   build_and_upload:
     needs: [createrelease]
-    name: build and upload
+    name: Build, Publish & Upload (x86, x64)
     runs-on: windows-latest
     strategy:
       matrix:
         run: ['x64', 'x86']
     steps:
+    - uses: actions/checkout@v2
+    
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
