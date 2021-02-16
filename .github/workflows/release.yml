@@ -1,0 +1,81 @@
+createrelease:
+    name: createrelease
+    runs-on: [macOS-latest]
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v1
+      
+      - name: create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+      
+      - name: Output Release URL File
+        run: echo "${{ steps.create_release.outputs.upload_url }}" > release_url.txt
+      
+      - name: Save Release URL File for publish
+        uses: actions/upload-artifact@v1
+        with:
+          name: release_url
+          path: release_url.txt
+
+
+build_and_upload:
+    needs: [createrelease]
+    name: build and upload
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        run: ['x64', 'x86']
+    steps:
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    
+    - name: Restore dependencies
+      run: dotnet restore
+    
+    - name: Build
+      run: dotnet build --no-restore
+    
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+    
+    - name: Publish (single file, self-contained, subfolder /publish)
+      run: |
+        echo Publish for ${{ matrix.run }}
+        dotnet publish MXFInspect -o publish -r win-${{ matrix.run }} --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true 
+    
+    - name: Zip publish result together with LICENSE file
+      shell: bash
+      run: |
+        7z a MXFInspect-LatestRelease-win${{ matrix.run }}.zip $GITHUB_WORKSPACE"\publish\*" LICENSE -bb
+    
+    - name: Load Release URL File from release job
+        uses: actions/download-artifact@v1
+        with:
+          name: release_url
+    
+    - name: Get Release File Name & Upload URL
+        id: get_release_info
+        run: |
+          value=`cat release_url/release_url.txt`
+          echo ::set-output name=upload_url::$value
+
+    - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.get_release_info.outputs.upload_url }}
+          asset_path: ./bin/snet
+          asset_name: test
+          asset_content_type: application/octet-stream
