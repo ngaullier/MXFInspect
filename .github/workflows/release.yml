@@ -71,6 +71,7 @@ jobs:
     
     - name: Get Release File Name & Upload URL
       id: get_release_info
+      shell: bash
       run: |
         value=`cat release_url/release_url.txt`
         echo ::set-output name=upload_url::$value
@@ -84,4 +85,4 @@ jobs:
         upload_url: ${{ steps.get_release_info.outputs.upload_url }}
         asset_path: ./bin/snet
         asset_name: test
-        asset_content_type: application/octet-stream
+        asset_content_type: application/zip
