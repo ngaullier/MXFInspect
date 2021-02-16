@@ -2,7 +2,8 @@ on:
   push:
     branches: [ master ]
 
-createrelease:
+jobs:
+  createrelease:
     name: createrelease
     runs-on: [windows-latest]
     steps:
@@ -29,8 +30,8 @@ createrelease:
           name: release_url
           path: release_url.txt
 
-
-build_and_upload:
+jobs:
+  build_and_upload:
     needs: [createrelease]
     name: build and upload
     runs-on: windows-latest
