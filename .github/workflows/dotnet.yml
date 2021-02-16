@@ -10,7 +10,9 @@ jobs:
   build:
     name: Build, Publish & Release
     runs-on: windows-latest
-
+    strategy:
+      matrix: 
+        run: ['x64', 'x86']
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET
@@ -24,11 +26,12 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
     - name: Publish (single file, self-contained, subfolder /publish)
-      run: dotnet publish MXFInspect -o publish -r win-x86 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true 
+      run: echo Publish for ${{ matrix.run }}
+      run: dotnet publish MXFInspect -o publish -r win-${{ matrix.run }} --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true 
     - name: Zip publish result together with LICENSE file
       shell: bash
       run: |
-        7z a release.zip $GITHUB_WORKSPACE"\publish\*" LICENSE -bb
+        7z a MXFInspect-LatestRelease-win${{ matrix.run }}.zip $GITHUB_WORKSPACE"\publish\*" LICENSE -bb
     - name: Make a github release
       uses: "marvinpinto/action-automatic-releases@latest"
       with:
@@ -37,5 +40,5 @@ jobs:
           prerelease: true
           title: "Development Build"
           files: |
-            release.zip
+            MXFInspect-LatestRelease-win${{ matrix.run }}.zip
      
